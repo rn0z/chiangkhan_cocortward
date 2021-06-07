@@ -21,7 +21,10 @@ export default class Dashboard extends React.Component {
             isolate: 0
         },
         hum: 0,
-        light: 0
+        light: 0,
+        hepadrop: 0,
+        airtube: 0,
+        uv: 0
     }
 
     componentDidMount() {
@@ -40,11 +43,17 @@ export default class Dashboard extends React.Component {
         let hum = 65 // +-2
         let press = -2
         let light = 456
+        let hepadrop = (Math.floor(Math.random() * 2) / 10) + 0.3
+        let airtube = (Math.floor(Math.random() * 3) / 10) + 19.5
+        let uv = (Math.floor(Math.random() * 5) / 10) + 26
+        this.setState({hepadrop: hepadrop})
+        this.setState({airtube: airtube})
+        this.setState({uv:uv})
         this.state.temp.ante = temp + Math.floor(Math.random() *3)
         this.state.temp.isolate = temp + Math.floor(Math.random() *3)
         this.state.temp.toilet = temp + Math.floor(Math.random() *3)
         this.setState({hum: hum + Math.floor(Math.random() * 5)})
-        this.setState({light:  light + Math.floor(Math.random() * 6)})
+        this.setState({light:  light + Math.floor(Math.random() * 4)})
         await axios.get('http://127.0.0.1:5000/api/name')
         .then(res => res.data )
         .then(res => {
@@ -210,19 +219,19 @@ export default class Dashboard extends React.Component {
                                             <th>
                                                 UV(Lux)
                                             </th>
-                                            <td>{ 26 }</td>
+                                            <td>{ this.state.uv }</td>
                                         </tr>
                                         <tr>
                                             <th>
                                                 Drop Hepa(Pa)
                                             </th>
-                                            <td>{ 0.4 }</td>
+                                            <td>{ (this.state.hepadrop) }</td>
                                         </tr>
                                         <tr>
                                             <th>
                                                 Air Tube(C)
                                             </th>
-                                            <td>{ 19.5 }</td>
+                                            <td>{ this.state.airtube }</td>
                                         </tr>
                                     </tbody>
                                 </table>
