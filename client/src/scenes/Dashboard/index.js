@@ -31,7 +31,7 @@ export default class Dashboard extends React.Component {
         this.getData()
         this.interval = setInterval(() => {
             this.getData()
-        }, 500)
+        }, 5000)
     }
 
     componentWillUnmount() {
@@ -41,11 +41,21 @@ export default class Dashboard extends React.Component {
     async getData() {
         let temp = 20 // +-2
         let hum = 65 // +-2
-        let press = -2
         let light = 456
         let hepadrop = (Math.floor(Math.random() * 2) / 10) + 0.3
         let airtube = (Math.floor(Math.random() * 3) / 10) + 19.5
         let uv = (Math.floor(Math.random() * 5) / 10) + 26
+	let press = {
+		toilet: -12,
+		isolate: -10,
+		ante: -8
+	}
+
+	this.setState({press: {
+		toilet: (- 10 - (Math.floor(Math.random() *6) /10)),
+		isolate: (- 12 - (Math.floor(Math.random() *6) /10)),
+		ante: (- 8 - (Math.floor(Math.random() *6) /10))
+	}})
         this.setState({hepadrop: hepadrop})
         this.setState({airtube: airtube})
         this.setState({uv:uv})
@@ -54,7 +64,7 @@ export default class Dashboard extends React.Component {
         this.state.temp.toilet = temp + Math.floor(Math.random() *3)
         this.setState({hum: hum + Math.floor(Math.random() * 5)})
         this.setState({light:  light + Math.floor(Math.random() * 4)})
-        await axios.get('http://127.0.0.1:5000/api/name')
+        await axios.get('/api/name')
         .then(res => res.data )
         .then(res => {
           if (res) {
@@ -66,7 +76,7 @@ export default class Dashboard extends React.Component {
     }
 
     render() {
-        let date = new Date;
+        let date = new Date();
         let now = `${date.getDate()}/${date.getMonth()+1}/${date.getFullYear()}`
         let greenBackground = {background: 'green'}
         return (
@@ -116,13 +126,13 @@ export default class Dashboard extends React.Component {
                                                 Pressure(Pa)
                                             </th>
                                             <td style={greenBackground}>
-                                                {Math.floor(Math.random() * 3)}
+                                                { this.state.press.isolate }
                                             </td>
                                             <td style={greenBackground}>
-                                                { -9 }
+                                                { this.state.press.ante }
                                             </td>
                                             <td style={{background: 'green'}}>
-                                                { -13 }
+                                                { this.state.press.toilet }
                                             </td>
                                         </tr>
                                         <tr>
